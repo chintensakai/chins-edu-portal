@@ -1,69 +1,21 @@
 <template>
   <div class="home">
+    <el-carousel :interval="3000" type="card">
+      <el-carousel-item v-for="item in carousel" :key="item">
+        <el-image :src="item" fit="cover"></el-image>
+      </el-carousel-item>
+    </el-carousel>
+
     <h3>热门课程</h3>
     <el-row :gutter="20" type="flex" justify="center">
-      <el-col :span="6"
+      <el-col :span="6" v-for="(item, index) in hotCourses" :key="index"
         ><div class="grid-content" @click="gotoCourseInfo(curseId)">
           <el-card :body-style="{ padding: '0px' }" shadow="hover">
-            <img
-              src="https://www.gulixueyuan.com/files/default/2018/06-15/0918251905f6057842.jpg"
-              class="image"
-            />
+            <img :src="item.cover" class="image" />
             <div style="padding: 14px">
-              <span>好吃的汉堡</span>
+              <span>{{ item.title }}</span>
               <div class="bottom clearfix">
-                <time class="time">{{ currentDate }}</time>
-                <el-button type="text" class="button">操作按钮</el-button>
-              </div>
-            </div>
-          </el-card>
-        </div></el-col
-      >
-      <el-col :span="6"
-        ><div class="grid-content">
-          <el-card :body-style="{ padding: '0px' }" shadow="hover">
-            <img
-              src="https://www.gulixueyuan.com/files/default/2018/06-15/0918146150a9565117.jpg"
-              class="image"
-            />
-            <div style="padding: 14px">
-              <span>好吃的汉堡</span>
-              <div class="bottom clearfix">
-                <time class="time">{{ currentDate }}</time>
-                <el-button type="text" class="button">操作按钮</el-button>
-              </div>
-            </div>
-          </el-card>
-        </div></el-col
-      >
-      <el-col :span="6"
-        ><div class="grid-content">
-          <el-card :body-style="{ padding: '0px' }" shadow="hover">
-            <img
-              src="https://www.gulixueyuan.com/files/default/2018/06-14/1709051b4c3c309882.jpg"
-              class="image"
-            />
-            <div style="padding: 14px">
-              <span>好吃的汉堡</span>
-              <div class="bottom clearfix">
-                <time class="time">{{ currentDate }}</time>
-                <el-button type="text" class="button">操作按钮</el-button>
-              </div>
-            </div>
-          </el-card>
-        </div></el-col
-      >
-      <el-col :span="6"
-        ><div class="grid-content">
-          <el-card :body-style="{ padding: '0px' }" shadow="hover">
-            <img
-              src="https://www.gulixueyuan.com/files/course/2020/09-17/092058a40481921036.jpg"
-              class="image"
-            />
-            <div style="padding: 14px">
-              <span>好吃的汉堡</span>
-              <div class="bottom clearfix">
-                <time class="time">{{ currentDate }}</time>
+                <time class="time">课时数 {{ item.lessonNum }}</time>
                 <el-button type="text" class="button">操作按钮</el-button>
               </div>
             </div>
@@ -76,21 +28,36 @@
 
 <script>
 // @ is an alias to /src
-
+import { getHotCourses } from "@/network/course.js";
 export default {
   name: "Home",
   components: {},
   data() {
     return {
-      currentDate: new Date()
+      currentDate: new Date(),
+      carousel: [
+        "https://www.gulixueyuan.com/files/course/2021/04-06/163053d42c7a182263.png",
+        "https://www.gulixueyuan.com/files/course/2021/03-23/114903fb91ed428957.jpg",
+        "https://www.gulixueyuan.com/files/course/2021/04-26/083850a4ac13186341.jpg",
+      ],
+      hotCourses: [],
     };
   },
   methods: {
     gotoCourseInfo(courseId) {
-      alert(courseId)
-      this.$router.push("/about")
-    }
-  }
+      alert(courseId);
+      this.$router.push("/about");
+    },
+    getHomeHotCourses() {
+      getHotCourses().then((res) => {
+        console.log(res);
+        this.hotCourses = res.data.hostCourses;
+      });
+    },
+  },
+  created() {
+    this.getHomeHotCourses();
+  },
 };
 </script>
 
@@ -131,4 +98,17 @@ export default {
 .clearfix:after {
   clear: both;
 }
+
+.el-carousel__item el-img {
+  padding: 0;
+  margin: 0;
+  width: 500px;
+}
+/* .el-carousel__item:nth-child(2n) {
+  background-color: #99a9bf;
+}
+
+.el-carousel__item:nth-child(2n + 1) {
+  background-color: #d3dce6;
+} */
 </style>
