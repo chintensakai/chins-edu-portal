@@ -15,7 +15,7 @@
       </el-menu>
     </div>
     <div class="r-content">
-      <el-dropdown trigger="click">
+      <el-dropdown trigger="click" v-if="isLogin">
         <span class="el-dropdown-link">
           <el-avatar
             src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"
@@ -26,21 +26,35 @@
           <el-dropdown-item>退出</el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
+      <el-button type="text" v-else @click="showLoginForm"><i class="el-icon-user"></i> 登录</el-button>
     </div>
+    <LoginForm :dialogFormVisible="dialogFormVisible" @formVisible="formVisible"></LoginForm>
   </div>
 </template>
 <script>
+import LoginForm from "@/components/LoginForm.vue";
 export default {
   name: "Header",
+  components: {
+    LoginForm
+  },
   data() {
     return {
-      activeIndex: "1",
+      activeIndex: "/",
+      isLogin: false,
+      dialogFormVisible: false
     };
   },
   methods: {
     handleSelect(key, keyPath) {
       console.log(key, keyPath);
     },
+    showLoginForm() {
+      this.dialogFormVisible = true
+    },
+    formVisible() {
+      this.dialogFormVisible = false
+    }
   },
 };
 </script>
