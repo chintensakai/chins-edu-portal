@@ -15,20 +15,22 @@
       </el-menu>
     </div>
     <div class="r-content">
-      <el-dropdown trigger="click" v-if="isLogin">
-        <span class="el-dropdown-link">
-          <el-avatar
-            src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"
-          ></el-avatar>
-        </span>
+      <el-dropdown trigger="click" v-if="isLogin" >
+        <span style="">{{ nickname }}</span>
         <el-dropdown-menu slot="dropdown">
           <el-dropdown-item>个人中心</el-dropdown-item>
           <el-dropdown-item>退出</el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
-      <el-button type="text" v-else @click="showLoginForm"><i class="el-icon-user"></i> 登录</el-button>
+      <el-button type="text" v-else @click="showLoginForm"
+        ><i class="el-icon-user"></i> 登录</el-button
+      >
     </div>
-    <LoginForm :dialogFormVisible="dialogFormVisible" @formVisible="formVisible"></LoginForm>
+    <LoginForm
+      :dialogFormVisible="dialogFormVisible"
+      @formVisible="formVisible"
+      @loginSuccess="loginSuccess"
+    ></LoginForm>
   </div>
 </template>
 <script>
@@ -36,13 +38,14 @@ import LoginForm from "@/components/LoginForm.vue";
 export default {
   name: "Header",
   components: {
-    LoginForm
+    LoginForm,
   },
   data() {
     return {
       activeIndex: "/",
       isLogin: false,
-      dialogFormVisible: false
+      dialogFormVisible: false,
+      nickname: ''
     };
   },
   methods: {
@@ -50,12 +53,24 @@ export default {
       console.log(key, keyPath);
     },
     showLoginForm() {
-      this.dialogFormVisible = true
+      this.dialogFormVisible = true;
     },
     formVisible() {
-      this.dialogFormVisible = false
-    }
+      this.dialogFormVisible = false;
+    },
+    loginSuccess() {
+      console.log(this.$store.state.userInfo.nickname)
+      this.isLogin = true;
+      this.nickname = this.$store.state.userInfo.nickname
+    },
   },
+  created() {
+    if(this.$store.state.userInfo.nickname) {
+      console.log(this.$store.state.userInfo.nickname)
+      this.isLogin = true;
+      this.nickname = this.$store.state.userInfo.nickname
+    }
+  }
 };
 </script>
 <style>
