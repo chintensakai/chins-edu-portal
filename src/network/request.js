@@ -5,7 +5,7 @@ export function request(config) {
     // 1. 创建axios实例
     const instance = axios.create({
         // 最终都改为gateway的端口
-        baseURL: "http://localhost:8005",
+        baseURL: "http://localhost:8809",
         timeout: 5000,
         headers: {
             'content-type': 'application/json'

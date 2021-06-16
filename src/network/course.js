@@ -1,6 +1,6 @@
 import { request } from './request'
 
-const courses_base_url = 'service.course/edu-course'
+const courses_base_url = 'eduservice/edu-course'
 
 // 获取首页热门课程
 export function getHotCourses() {

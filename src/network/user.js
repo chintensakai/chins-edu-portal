@@ -3,7 +3,7 @@ import { request } from './request'
 export default {
     submitLogin(userInfo) {
         return request({
-            url: '/service/edu-ucenter/login',
+            url: '/eduucenter/edu-ucenter/login',
             data: userInfo,
             method: "post"
         })
@@ -11,7 +11,7 @@ export default {
 
     getUserInfo() {
         return request({
-            url: "/service/edu-ucenter/getUserInfo",
+            url: "/eduucenter/edu-ucenter/getUserInfo",
             method: 'get'
         })
     }

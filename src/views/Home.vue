@@ -51,7 +51,7 @@ export default {
     getHomeHotCourses() {
       getHotCourses().then((res) => {
         console.log(res);
-        // this.hotCourses = res.data.hostCourses;
+        this.hotCourses = res.data.hostCourses;
       });
     },
   },
